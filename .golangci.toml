@@ -1,0 +1,269 @@
+version = '2'
+
+# to be activated in another PR
+[issues]
+fix = true
+
+# golangci-lint linters --disable=exhaustruct,gomodguard,funlen,godot,inamedparam,ireturn,musttag,tagliatelle,testpackage,wsl,funcorder,embeddedstructfieldcheck
+[linters]
+default = 'none'
+enable = [
+    'arangolint',
+    'asasalint',
+    'asciicheck',
+    'bidichk',
+    'bodyclose',
+    'canonicalheader',
+    'containedctx',
+    'contextcheck',
+    'copyloopvar',
+    'cyclop',
+    'decorder',
+    'depguard',
+    'dogsled',
+    'dupl',
+    'dupword',
+    'durationcheck',
+    'err113',
+    'errcheck',
+    'errchkjson',
+    'errname',
+    'errorlint',
+    'exhaustive',
+    'exptostd',
+    'fatcontext',
+    'forbidigo',
+    'forcetypeassert',
+    'ginkgolinter',
+    'gocheckcompilerdirectives',
+    'gochecknoglobals',
+    'gochecknoinits',
+    'gochecksumtype',
+    'gocognit',
+    'goconst',
+    'gocritic',
+    'gocyclo',
+    'godox',
+    'goheader',
+    'gomoddirectives',
+    'goprintffuncname',
+    'gosec',
+    'gosmopolitan',
+    'govet',
+    'grouper',
+    'iface',
+    'importas',
+    'ineffassign',
+    'interfacebloat',
+    'intrange',
+    'lll',
+    'loggercheck',
+    'maintidx',
+    'makezero',
+    'mirror',
+    'misspell',
+    'mnd',
+    'modernize',
+    'nakedret',
+    'nestif',
+    'nilerr',
+    'nilnesserr',
+    'nilnil',
+    'nlreturn',
+    'noctx',
+    'nolintlint',
+    'nonamedreturns',
+    'nosprintfhostport',
+    'paralleltest',
+    'perfsprint',
+    'prealloc',
+    'predeclared',
+    'promlinter',
+    'protogetter',
+    'reassign',
+    'revive',
+    'rowserrcheck',
+    'sloglint',
+    'spancheck',
+    'sqlclosecheck',
+    'staticcheck',
+    'tagalign',
+    'testableexamples',
+    'testifylint',
+    'thelper',
+    'tparallel',
+    'unconvert',
+    'unparam',
+    'unused',
+    'usestdlibvars',
+    'usetesting',
+    'varnamelen',
+    'wastedassign',
+    'whitespace',
+    'wrapcheck',
+    'wsl_v5',
+
+    'gomodguard_v2',
+    'iotamixing',
+    'unqueryvet',
+
+    # Disabled by your configuration linters:
+    # clickhouselint: Detects common mistakes with the ClickHouse native Go driver API.
+    # embeddedstructfieldcheck: Embedded types should be at the top of the field list of a struct, and there must be an empty line separating embedded fields from regular fields. [fast]
+    # exhaustruct: Checks if all structure fields are initialized.
+    # funcorder: Checks the order of functions, methods, and constructors. [fast]
+    # funlen: Checks for long functions. [fast]
+    # godoclint: Checks Golang's documentation practice (godoc). [fast]
+    # godot: Check if comments end in a period. [fast, auto-fix]
+    # inamedparam: Reports interfaces with unnamed method parameters. [fast]
+    # ireturn: Accept Interfaces, Return Concrete Types.
+    # musttag: Enforce field tags in (un)marshaled structs.
+    # noinlineerr: Disallows inline error handling (`if err := ...; err != nil {`). [auto-fix]
+    # recvcheck: Checks for receiver type consistency.
+    # tagliatelle: Checks the struct tags.
+    # testpackage: Linter that makes you use a separate _test package. [fast]
+    # zerologlint: Detects the wrong usage of `zerolog` that a user forgets to dispatch with `Send` or `Msg`.
+    # gomodguard [deprecated]: Allow and blocklist linter for direct Go module dependencies. This is different from depguard where there are different block types for example version constraints and module recommendations. [fast]
+    # wsl [deprecated]: Add or remove empty lines. [fast, auto-fix]
+]
+
+[linters.settings]
+[linters.settings.depguard]
+[linters.settings.depguard.rules]
+[linters.settings.depguard.rules.main]
+[[linters.settings.depguard.rules.main.deny]]
+pkg = 'github.com/sirupsen/logrus'
+desc = 'please use log/slog from std lib'
+
+[linters.settings.depguard.rules.prevent_unmaintained_packages]
+[[linters.settings.depguard.rules.prevent_unmaintained_packages.deny]]
+pkg = 'io/ioutil'
+desc = 'replaced by io and os packages since Go 1.16: https://tip.golang.org/doc/go1.16#ioutil'
+
+[linters.settings.depguard.rules.test]
+[[linters.settings.depguard.rules.test.deny]]
+pkg = 'github.com/stretchr/testify/assert'
+desc = 'please use go table tests and simple ifs'
+
+[[linters.settings.depguard.rules.test.deny]]
+pkg = 'github.com/stretchr/testify/require'
+desc = 'please use go table tests and simple ifs'
+
+[[linters.settings.depguard.rules.test.deny]]
+pkg = 'github.com/stretchr/testify/suite'
+desc = 'please use go table tests and simple ifs'
+
+[linters.settings.errorlint]
+errorf = true
+
+[linters.settings.forbidigo]
+analyze-types = true
+
+[[linters.settings.forbidigo.forbid]]
+pattern = 'decimal.Decimal.Div$'
+msg = """
+Use 'x.DivRound(y, money.Precision)' instead of 'x.Div(y)'."""
+
+[[linters.settings.forbidigo.forbid]]
+pattern = 'decimal.Decimal.Pow$'
+msg = """
+Use 'decimal.PowWithPrecision(x, y, money.Precision)' instead of 'decimal.Pow(x, y)'."""
+
+[linters.settings.gocritic]
+disabled-checks = ['whyNoLint', 'unnamedResult']
+enabled-tags = [
+    'diagnostic',
+    'experimental',
+    'opinionated',
+    'performance',
+    'style',
+]
+
+[linters.settings.gomoddirectives]
+replace-allow-list = ['github.com/docker/cli']
+
+[linters.settings.gosec]
+excludes = ['G601']
+
+[linters.settings.govet]
+disable = ['fieldalignment']
+enable-all = true
+
+[linters.settings.staticcheck]
+checks = ['all', '-QF1008']
+
+[linters.settings.nolintlint]
+require-explanation = true
+require-specific = true
+
+[linters.settings.prealloc]
+simple = false
+range-loops = true
+for-loops = true
+
+[linters.settings.revive]
+confidence = 0.0
+
+[linters.settings.tagalign]
+align = false
+
+[linters.settings.wrapcheck]
+ignore-sigs = [
+    'fmt.Errorf(',
+    'errors.Join(',
+    'go.temporal.io/sdk/temporal.NewApplicationError(',
+]
+
+[linters.exclusions]
+generated = 'lax'
+presets = ['comments', 'common-false-positives', 'legacy', 'std-error-handling']
+paths = ['third_party$', 'builtin$', 'examples$']
+
+[[linters.exclusions.rules]]
+linters = [
+    'contextcheck',
+    'cyclop',
+    'dupl',
+    'dupword',
+    'err113',
+    'errcheck',
+    'errorlint',
+    'forcetypeassert',
+    'funlen',
+    'gochecknoglobals',
+    'gocognit',
+    'goconst',
+    'gocritic',
+    'gosec',
+    'interfacer',
+    'lll',
+    'nlreturn',
+    'varnamelen',
+    'wrapcheck',
+    'maintidx',
+    'noctx',
+    'unqueryvet',
+]
+path = '(.+)_test\.go'
+
+[[linters.exclusions.rules]]
+linters = ['lll']
+source = '^//go:generate '
+
+[formatters]
+enable = ['gci', 'gofmt', 'gofumpt', 'goimports', 'golines']
+
+[formatters.settings]
+[formatters.settings.gci]
+sections = ['standard', 'default', 'prefix(github.com/induzo)']
+
+[formatters.settings.gofumpt]
+module-path = 'github.com/induzo'
+extra-rules = true
+
+[formatters.settings.golines]
+reformat-tags = false
+
+[formatters.exclusions]
+generated = 'lax'
+paths = ['third_party$', 'builtin$', 'examples$']
