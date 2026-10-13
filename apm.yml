@@ -1,0 +1,46 @@
+name: service
+version: 1.0.0
+description: APM project for service
+author: danipurwadi
+# Which agent platforms to deploy to.
+# Resolution order: --target flag > this field > auto-detect from filesystem.
+# Accepted values: agent-skills, antigravity, claude, codex, copilot, cursor, gemini, grok-build, hermes, kiro, opencode, vscode, windsurf
+targets:
+  - agent-skills
+dependencies:
+  apm:
+    - git: mattpocock/skills
+      skills:
+        - domain-modeling
+        - grill-with-docs
+        - grilling
+        - improve-codebase-architecture
+    - git: samber/cc-skills-golang
+      skills:
+        - golang-benchmark
+        - golang-code-style
+        - golang-concurrency
+        - golang-context
+        - golang-continuous-integration
+        - golang-data-structures
+        - golang-database
+        - golang-dependency-management
+        - golang-design-patterns
+        - golang-documentation
+        - golang-error-handling
+        - golang-gopls
+        - golang-how-to
+        - golang-naming
+        - golang-performance
+        - golang-pkg-go-dev
+        - golang-project-layout
+        - golang-refactoring
+        - golang-safety
+        - golang-security
+        - golang-stay-updated
+        - golang-structs-interfaces
+        - golang-testing
+        - golang-troubleshooting
+  mcp: []
+includes: auto
+scripts: {}
