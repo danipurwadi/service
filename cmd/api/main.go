@@ -50,8 +50,10 @@ func run(parentContext context.Context, logger *slog.Logger) error {
 	defer stop()
 
 	serverErrors := make(chan error, 1)
+
 	go func() {
 		logger.Info("api listening", slog.String("address", server.Addr))
+
 		serverErrors <- server.ListenAndServe()
 	}()
 

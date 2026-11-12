@@ -217,7 +217,7 @@ ignore-sigs = [
 [linters.exclusions]
 generated = 'lax'
 presets = ['comments', 'common-false-positives', 'legacy', 'std-error-handling']
-paths = ['third_party$', 'builtin$', 'examples$']
+paths = ['third_party$', 'builtin$', 'examples$', 'apm_modules']
 
 [[linters.exclusions.rules]]
 linters = [
@@ -259,11 +259,14 @@ sections = ['standard', 'default', 'prefix(github.com/induzo)']
 
 [formatters.settings.gofumpt]
 module-path = 'github.com/induzo'
-extra-rules = true
+
+[formatters.settings.gofumpt.extra]
+group-params = true
+clothe-returns = true
 
 [formatters.settings.golines]
 reformat-tags = false
 
 [formatters.exclusions]
 generated = 'lax'
-paths = ['third_party$', 'builtin$', 'examples$']
+paths = ['third_party$', 'builtin$', 'examples$', 'apm_modules']

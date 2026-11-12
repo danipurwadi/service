@@ -4,14 +4,15 @@ SHELL := /bin/sh
 .DELETE_ON_ERROR:
 
 GO ?= go
-PACKAGES ?= ./...
+# Not ./... because that also matches the Go examples in apm_modules/.
+PACKAGES ?= ./cmd/... ./internal/...
 TOOLS_DIR ?= $(CURDIR)/.tools
 TOOLS_BIN := $(TOOLS_DIR)/bin
 
 GOLANGCI_LINT := $(TOOLS_BIN)/golangci-lint
 GOVULNCHECK := $(TOOLS_BIN)/govulncheck
 
-GOLANGCI_LINT_VERSION ?= v2.5.0
+GOLANGCI_LINT_VERSION ?= v2.15.0
 GOVULNCHECK_VERSION ?= v1.1.4
 
 .PHONY: help bootstrap build test test-race bench fmt fmt-check lint vet generate tidy vuln check clean require-module
